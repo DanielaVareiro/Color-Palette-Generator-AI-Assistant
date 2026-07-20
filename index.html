@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Palette Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+
+    <header>
+        <div class="logo">PaletteGen</div>
+        <button id="theme-toggle" class="theme-btn">Light Mode</button>
+    </header>
+
+    <main class="container">
+        <div id="chat-container">
+            <div id="chat-messages">
+            <div class="message bot">Hello! I am your design assistant. Choose a color or tell me what you are looking for!😊</div>
+        </div>
+    <div id="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Type your message...">
+        <button id="btn-enviar-chat">Send</button>
+    </div>
+</div>
+        <section class="generator-section">
+            <div id="color-circle">
+                <input type="color" id="color-picker" value="#8157C4">
+                <span class="circle-text">#8157C4</span>
+            </div>
+        </section>
+
+        <section class="history-section">
+            <h3>Saved Colors</h3>
+            <div id="history-box" class="history-box">
+                </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+{
+  "name": "Color Palette",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "You are an assistant specializing in design, color theory, and aesthetic palettes. Your goal is to help the user combine colors and suggest palettes based on moods, themes, or visual references (such as Pinterest aesthetics). Be friendly, creative, and direct in your responses. Do not address topics outside the scope of design or web development."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        384,
+        -144
+      ],
+      "id": "f9f7bcc7-854f-42b6-b202-d403ad642ff9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"aiResponse\": {{ JSON.stringify($json.output || $json.text || $json.response || \"Sorry, an error occurred in the AI.\") }}\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        704,
+        -144
+      ],
+      "id": "0bef01b6-cbac-4a49-a451-7239af9bef46",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "3a2229cc-b4bf-80de-bb58-ed3323458d45",
+          "mode": "list",
+          "cachedResultName": "Color Palette",
+          "cachedResultUrl": "https://app.notion.com/p/3a2229ccb4bf80debb58ed3323458d45"
+        },
+        "title": "={{ $json.body.cor }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        704,
+        160
+      ],
+      "id": "889a8846-f4f9-49dd-b11b-9e34a12e6bf4",
+      "name": "Create a database page",
+      "credentials": {
+        "notionApi": {
+          "id": "63flWrO8swlKj01q",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.message }}",
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        480,
+        64
+      ],
+      "id": "20c76224-d75a-4138-8c3e-7e0e8506c4ef",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        336,
+        64
+      ],
+      "id": "72a7c420-f972-4768-bcc9-25ad7c38c9ed",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "NeM6F5owtMgCQUkq",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2ce4f70d-bbb5-40d1-855e-999a5fd69f95",
+              "leftValue": "={{ $json.body?.type || $json.type || \"\" }}",
+              "rightValue": "chat",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        128,
+        144
+      ],
+      "id": "ba3de352-34c4-4ac1-85ba-b0b798a183c3",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "34b91517-b4a7-40d8-86d3-263e4927e570",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        144
+      ],
+      "id": "02756bc2-473f-4eae-acb8-a11234dc153e",
+      "name": "Webhook",
+      "webhookId": "34b91517-b4a7-40d8-86d3-263e4927e570"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "scenic-harmonics-dress.ngrok-free.dev",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0",
+            "content-length": "100",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json",
+            "origin": "http://127.0.0.1:5500",
+            "priority": "u=1, i",
+            "referer": "http://127.0.0.1:5500/",
+            "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Microsoft Edge\";v=\"150\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "2804:1b3:8240:79d7:c2d2:a0f5:387b:7ddf",
+            "x-forwarded-host": "scenic-harmonics-dress.ngrok-free.dev",
+            "x-forwarded-proto": "https"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "chat_message",
+            "message": "i want dark themed colors",
+            "timestamp": "2026-07-20T02:26:38.122Z"
+          },
+          "webhookUrl": "https://scenic-harmonics-dress.ngrok-free.dev/webhook/34b91517-b4a7-40d8-86d3-263e4927e570",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "74c12f2a-6b43-4a6c-aaed-8f8834c9cdf1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a4d3291081d3a9bdbda2fc16a1bd76d614c616bb12aaa61555b8e333a2b9c5e8"
+  },
+  "id": "2Bf2VFOkUVDkXZrF",
+  "tags": []
+}

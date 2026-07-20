@@ -1,0 +1,267 @@
+/* ==========================================================================
+   1. VARIÁVEIS DE TEMA E CONFIGURAÇÕES GLOBAIS
+   ========================================================================== */
+:root {
+    --bg-color: #03071e; 
+    --text-color: #ffffff;
+    --box-bg: #0d1b2a;
+    --border-color: #ffffff;
+    --chat-bg: #0d1117;
+    --input-bg: #1f2937;
+}
+
+/* Quando a classe .light-mode for ativada no body pelo JavaScript */
+body.light-mode {
+    --bg-color: #f8f9fa;
+    --text-color: #212529;
+    --box-bg: #ffffff;
+    --border-color: #212529;
+    --chat-bg: #ffffff;
+    --input-bg: #f3f4f6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   2. CABEÇALHO
+   ========================================================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+header h1, .logo-title {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.theme-btn, #theme-toggle {
+    background: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    padding: 8px 22px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.theme-btn:hover, #theme-toggle:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* ==========================================================================
+   3. LAYOUT PRINCIPAL EM 3 COLUNAS ALINHADAS
+   ========================================================================== */
+.main-container, .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;align-items: center; /* Alinha o Círculo, Chat e Histórico perfeitamente na vertical */
+    gap: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px 40px;
+    min-height: calc(100vh - 120px);
+}
+
+/* ==========================================================================
+   4. LADO ESQUERDO: CÍRCULO CROMÁTICO
+   ========================================================================== */
+.color-picker-section {
+    order: 1;
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--box-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#color-circle {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: crosshair;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+}
+
+#color-picker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.circle-text {
+    pointer-events: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* ==========================================================================
+   5. CENTRO: CHAT DO AGENTE DE IA
+   ========================================================================== */
+#chat-container {
+    order: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 700px; 
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    background: var(--chat-bg);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
+
+#chat-messages {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Balões de Mensagem */
+.message {
+    max-width: 85%;
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-size: 1rem;
+    line-height: 1.6;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.message.bot {
+    align-self: flex-start;
+    background: var(--input-bg);
+    color: var(--text-color);
+    border-bottom-left-radius: 4px;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: #2563eb;
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+}
+
+/* Input e Botão */
+#chat-input-area {
+    display: flex;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.1);
+    border-top: 1px solid var(--border-color);
+    gap: 12px;
+}
+
+#chat-input {
+    flex: 1;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    outline: none;
+}
+
+#btn-enviar-chat {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 0 24px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   6. LADO DIREITO: HISTÓRICO DE CORES SALVAS
+   ========================================================================== */
+.history-section {
+    order: 3;
+    flex: 0 0 340px;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-section h2, .history-title {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.history-box, #history-box {
+    background-color: var(--box-bg);
+    border: 2px solid var(--border-color);
+    height: 600px; 
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-content: flex-start;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow-y: auto;
+}
+
+.color-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.color-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    margin-bottom: 6px;
+}
+
+.color-code {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
