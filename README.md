@@ -38,4 +38,4 @@ A modern web application for generating, exploring, and curating color palettes,
 
 ---
 
->** Kyrie Eleison** 🧠
+>**Kyrie Eleison** 🧠
